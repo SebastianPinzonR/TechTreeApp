@@ -227,3 +227,4 @@ C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\obj\De
 C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\obj\Debug\net9.0\TechTreeMVCApplication.pdb
 C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\obj\Debug\net9.0\TechTreeMVCApplication.genruntimeconfig.cache
 C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\obj\Debug\net9.0\ref\TechTreeMVCApplication.dll
+C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\obj\Debug\net9.0\TechTreeMVCApplication.sourcelink.json

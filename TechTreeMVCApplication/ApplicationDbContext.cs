@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using TechTreeMVCApplication.Entities;
 
 namespace TechTreeMVCApplication
@@ -14,6 +15,7 @@ namespace TechTreeMVCApplication
         public DbSet<Contenido> Contenido { get; set; }
         public DbSet<TipodeMedio> TipodeMedio { get; set; }
         public DbSet<TipodeUsuario> TipodeUsuario { get; set; }
+        public DbSet<UsuarioAplicacion> usuariosdelaAplicacion { get; set; }
     }
 
 }
