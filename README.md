@@ -1,0 +1,2 @@
+💻 Este proyecto está inspirado en el curso impartido por Gavin Lon 🎓, donde se desarrolla una aplicación web que abarca diversos temas avanzados 🚀.
+Sin embargo, he tomado como base dicho contenido y lo he actualizado 🛠️ utilizando versiones más recientes de .NET 🔄, incorporando buenas prácticas modernas ✅ y mejoras en la arquitectura 🏗️ para adaptarlo a los estándares actuales de desarrollo web 🌐.
