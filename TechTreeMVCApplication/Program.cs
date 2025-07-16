@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using TechTreeMVCApplication;
+using TechTreeMVCApplication.Data;
+using TechTreeMVCApplication.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(opciones => 
     opciones.UseSqlServer("name=DefaultConnection"));
+
+builder.Services.AddDefaultIdentity<UsuarioAplicacion>(opciones =>
+    opciones.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 var app = builder.Build();
 

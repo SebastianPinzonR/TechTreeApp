@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("TechTreeMVCApplication")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6ffe1add3556f50b35f93e43df4dcf23756d11c1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+34a6210cdc9e0dfb6a0c894ba6f7736caea51f52")]
 [assembly: System.Reflection.AssemblyProductAttribute("TechTreeMVCApplication")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TechTreeMVCApplication")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

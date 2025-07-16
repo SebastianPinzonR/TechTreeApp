@@ -5,27 +5,27 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TechTreeMVCApplication.Entities;
 
-namespace TechTreeMVCApplication
+namespace TechTreeMVCApplication.Data
 {
     public class UsuarioAplicacion:IdentityUser
     {
         
         [StringLength(250)]
-        public string Nombre { get; set; } = null!;
+        public string Nombre { get; set; } 
 
         [StringLength(250)]
-        public string Apellido { get; set; } = null!;
+        public string Apellido { get; set; } 
 
         [StringLength(250)]
-        public string Direccion1 { get; set; } = null!;
+        public string Direccion1 { get; set; } 
 
         [StringLength(250)]
-        public string Direccion2 { get; set; } = null!;
+        public string Direccion2 { get; set; } 
 
         [StringLength(50)]
         public string CodigoPostal { get; set; } = null!;
         [ForeignKey("TipodeUsuarioId")]
-        public virtual ICollection<TipodeUsuario> TipodeUsuarios { get; set; } = null!;
+        public virtual ICollection<TipodeUsuario> TipodeUsuarios { get; set; } 
     }
     public class ApplicationDbContext : IdentityDbContext <UsuarioAplicacion>
     {
