@@ -228,3 +228,8 @@ C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\obj\De
 C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\obj\Debug\net9.0\TechTreeMVCApplication.genruntimeconfig.cache
 C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\obj\Debug\net9.0\ref\TechTreeMVCApplication.dll
 C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\obj\Debug\net9.0\TechTreeMVCApplication.sourcelink.json
+C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\sebas\source\repos\TechTreeMVCApplication\TechTreeMVCApplication\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
