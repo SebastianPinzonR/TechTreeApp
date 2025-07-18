@@ -12,8 +12,8 @@ using TechTreeMVCApplication.Data;
 namespace TechTreeMVCApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250716162838_vamo")]
-    partial class vamo
+    [Migration("20250717213159_PrimeraMigracion")]
+    partial class PrimeraMigracion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -286,7 +286,7 @@ namespace TechTreeMVCApplication.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoriaItemId")
+                    b.Property<int>("CategoriaId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateTimeItemAdded")
@@ -296,6 +296,9 @@ namespace TechTreeMVCApplication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TipodeMedioId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -303,7 +306,9 @@ namespace TechTreeMVCApplication.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriaItemId");
+                    b.HasIndex("CategoriaId");
+
+                    b.HasIndex("TipodeMedioId");
 
                     b.ToTable("CategoriasItem");
                 });
@@ -325,13 +330,16 @@ namespace TechTreeMVCApplication.Migrations
 
                     b.Property<string>("Titulo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("VideoLink")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoriaItemId");
 
                     b.ToTable("Contenido");
                 });
@@ -368,21 +376,15 @@ namespace TechTreeMVCApplication.Migrations
                     b.Property<int>("CategoriaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TipoUsuarioId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TipodeUsuarioId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UsuarioId")
+                    b.Property<string>("UsuarioAplicacionId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TipoUsuarioId");
+                    b.HasIndex("CategoriaId");
 
-                    b.HasIndex("TipodeUsuarioId");
+                    b.HasIndex("UsuarioAplicacionId");
 
                     b.ToTable("TipodeUsuario");
                 });
@@ -442,22 +444,41 @@ namespace TechTreeMVCApplication.Migrations
                 {
                     b.HasOne("TechTreeMVCApplication.Entities.Categoria", null)
                         .WithMany("CategoriaItems")
-                        .HasForeignKey("CategoriaItemId");
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TechTreeMVCApplication.Entities.TipodeMedio", null)
                         .WithMany("CategoriaItems")
-                        .HasForeignKey("CategoriaItemId");
+                        .HasForeignKey("TipodeMedioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TechTreeMVCApplication.Entities.Contenido", b =>
+                {
+                    b.HasOne("TechTreeMVCApplication.Entities.CategoriaItem", "CategoriaItem")
+                        .WithMany()
+                        .HasForeignKey("CategoriaItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CategoriaItem");
                 });
 
             modelBuilder.Entity("TechTreeMVCApplication.Entities.TipodeUsuario", b =>
                 {
                     b.HasOne("TechTreeMVCApplication.Entities.Categoria", null)
                         .WithMany("TipodeUsuarios")
-                        .HasForeignKey("TipoUsuarioId");
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TechTreeMVCApplication.Data.UsuarioAplicacion", null)
                         .WithMany("TipodeUsuarios")
-                        .HasForeignKey("TipodeUsuarioId");
+                        .HasForeignKey("UsuarioAplicacionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TechTreeMVCApplication.Data.UsuarioAplicacion", b =>

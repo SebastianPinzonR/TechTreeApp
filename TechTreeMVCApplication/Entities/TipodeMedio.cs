@@ -7,7 +7,9 @@ namespace TechTreeMVCApplication.Entities
         public int Id { get; set; }
         public string Titulo { get; set; } = null!;
         public string PulgarImagen { get; set; } = null!;
-        [ForeignKey("CategoriaItemId")]
+        //Esta es una llave foranea la cual demuestra que esta en contacto con CategoriaItem,
+        //Ademas la relacion es de uno a muchos
+        [ForeignKey("TipodeMedioId")]
         public virtual ICollection<CategoriaItem> CategoriaItems { get; set; } = null!;
     }
 }

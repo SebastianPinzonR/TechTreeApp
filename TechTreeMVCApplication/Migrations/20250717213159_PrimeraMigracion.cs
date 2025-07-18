@@ -6,20 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TechTreeMVCApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class Se_quito_una_tabla : Migration
+    public partial class PrimeraMigracion : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "usuariosdelaAplicacion");
-
-            migrationBuilder.AddColumn<string>(
-                name: "TipodeUsuarioId",
-                table: "TipodeUsuario",
-                type: "nvarchar(450)",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -62,6 +53,35 @@ namespace TechTreeMVCApplication.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categorias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titulo = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PulgarImagen = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categorias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TipodeMedio",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PulgarImagen = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TipodeMedio", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,8 +130,8 @@ namespace TechTreeMVCApplication.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -155,8 +175,8 @@ namespace TechTreeMVCApplication.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -170,10 +190,82 @@ namespace TechTreeMVCApplication.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_TipodeUsuario_TipodeUsuarioId",
-                table: "TipodeUsuario",
-                column: "TipodeUsuarioId");
+            migrationBuilder.CreateTable(
+                name: "TipodeUsuario",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UsuarioAplicacionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CategoriaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TipodeUsuario", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TipodeUsuario_AspNetUsers_UsuarioAplicacionId",
+                        column: x => x.UsuarioAplicacionId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TipodeUsuario_Categorias_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "Categorias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CategoriasItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titulo = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateTimeItemAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CategoriaId = table.Column<int>(type: "int", nullable: false),
+                    TipodeMedioId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoriasItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CategoriasItem_Categorias_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "Categorias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CategoriasItem_TipodeMedio_TipodeMedioId",
+                        column: x => x.TipodeMedioId,
+                        principalTable: "TipodeMedio",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contenido",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titulo = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    HTMLContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VideoLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoriaItemId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contenido", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Contenido_CategoriasItem_CategoriaItemId",
+                        column: x => x.CategoriaItemId,
+                        principalTable: "CategoriasItem",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -214,21 +306,35 @@ namespace TechTreeMVCApplication.Migrations
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_TipodeUsuario_AspNetUsers_TipodeUsuarioId",
+            migrationBuilder.CreateIndex(
+                name: "IX_CategoriasItem_CategoriaId",
+                table: "CategoriasItem",
+                column: "CategoriaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CategoriasItem_TipodeMedioId",
+                table: "CategoriasItem",
+                column: "TipodeMedioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contenido_CategoriaItemId",
+                table: "Contenido",
+                column: "CategoriaItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TipodeUsuario_CategoriaId",
                 table: "TipodeUsuario",
-                column: "TipodeUsuarioId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id");
+                column: "CategoriaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TipodeUsuario_UsuarioAplicacionId",
+                table: "TipodeUsuario",
+                column: "UsuarioAplicacionId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_TipodeUsuario_AspNetUsers_TipodeUsuarioId",
-                table: "TipodeUsuario");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -245,35 +351,25 @@ namespace TechTreeMVCApplication.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Contenido");
+
+            migrationBuilder.DropTable(
+                name: "TipodeUsuario");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "CategoriasItem");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
-            migrationBuilder.DropIndex(
-                name: "IX_TipodeUsuario_TipodeUsuarioId",
-                table: "TipodeUsuario");
+            migrationBuilder.DropTable(
+                name: "Categorias");
 
-            migrationBuilder.DropColumn(
-                name: "TipodeUsuarioId",
-                table: "TipodeUsuario");
-
-            migrationBuilder.CreateTable(
-                name: "usuariosdelaAplicacion",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Apellido = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    CodigoPostal = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Direccion1 = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Direccion2 = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_usuariosdelaAplicacion", x => x.Id);
-                });
+            migrationBuilder.DropTable(
+                name: "TipodeMedio");
         }
     }
 }

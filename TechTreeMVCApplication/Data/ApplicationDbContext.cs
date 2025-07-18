@@ -24,7 +24,7 @@ namespace TechTreeMVCApplication.Data
 
         [StringLength(50)]
         public string CodigoPostal { get; set; } = null!;
-        [ForeignKey("TipodeUsuarioId")]
+        [ForeignKey("UsuarioAplicacionId")]
         public virtual ICollection<TipodeUsuario> TipodeUsuarios { get; set; } 
     }
     public class ApplicationDbContext : IdentityDbContext <UsuarioAplicacion>

@@ -12,9 +12,13 @@ namespace TechTreeMVCApplication.Entities
         public string Descripcion { get; set; } = null!;
         [Required]
         public string PulgarImagen { get; set; } = null!;
-        [ForeignKey("CategoriaItemId")]
+        //Esta es una llave forane la cual demuestra que esta en contacto con CategoriaItem,
+        //Ademas la relacion es de uno a muchos
+        [ForeignKey("CategoriaId")]
         public virtual ICollection<CategoriaItem> CategoriaItems { get; set; } = null!;
-        [ForeignKey("TipoUsuarioId")]
+        //Esta es una llave foranea la cual demuestra que esta en contacto con TipodeUsuario,
+        //Ademas la relacion es de uno a muchos
+        [ForeignKey("CategoriaId")]
         public virtual ICollection<TipodeUsuario> TipodeUsuarios { get; set; } = null!;
     }
 }
