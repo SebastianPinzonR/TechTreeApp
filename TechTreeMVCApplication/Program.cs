@@ -13,6 +13,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
 builder.Services.AddDefaultIdentity<UsuarioAplicacion>(opciones =>
     opciones.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+//lodelascookiess
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
+    options.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always;
+});
 
 var app = builder.Build();
 
@@ -26,15 +32,19 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
 app.UseAuthorization();
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "Admin",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapRazorPages();
+});
 app.MapStaticAssets();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
 
 app.Run();
