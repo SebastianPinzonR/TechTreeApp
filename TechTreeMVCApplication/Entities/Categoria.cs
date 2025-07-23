@@ -14,6 +14,7 @@ namespace TechTreeMVCApplication.Entities
         public string PulgarImagen { get; set; } = null!;
         //Esta es una llave forane la cual demuestra que esta en contacto con CategoriaItem,
         //Ademas la relacion es de uno a muchos
+        //Se crean de manera que bi se reciban validaciones relacionadas con CategoriaItems y TipodeUsuarios
         [ForeignKey("CategoriaId")]
         public virtual ICollection<CategoriaItem> CategoriaItems { get; set; } = new List<CategoriaItem>();
         //Esta es una llave foranea la cual demuestra que esta en contacto con TipodeUsuario,

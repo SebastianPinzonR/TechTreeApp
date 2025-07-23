@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TechTreeMVCApplication.Entities.Categoria>
+﻿@model IEnumerable<TechTreeMVCApplication.Entities.CategoriaItem>
 
 @{
     ViewData["Title"] = "Index";
@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.Descripcion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PulgarImagen)
+                @Html.DisplayNameFor(model => model.DateTimeItemAdded)
             </th>
             <th></th>
         </tr>
@@ -34,13 +34,12 @@
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PulgarImagen)
+                @Html.DisplayFor(modelItem => item.DateTimeItemAdded)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                <a asp-controller="CategoriaItem" asp-action="Index" asp-route-categoriaId="@item.Id">Update Items</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>                
             </td>
         </tr>
 }

@@ -11,22 +11,38 @@ using TechTreeMVCApplication.Entities;
 namespace TechTreeMVCApplication.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CategoriasController : Controller
+    public class CategoriaItemController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CategoriasController(ApplicationDbContext context)
+        public CategoriaItemController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Categorias
-        public async Task<IActionResult> Index()
+        // GET: Admin/CategoriaItem
+        public async Task<IActionResult> Index(int categoriaId)
         {
-            return View(await _context.Categorias.ToListAsync());
+            //catItem es una abreviacion de categoriaItem
+            List<CategoriaItem> list = await (from catItem in _context.CategoriasItem
+                                              where catItem.CategoriaId == categoriaId
+                                              select new CategoriaItem
+                                              {
+                                                  Id = catItem.Id,
+                                                  Titulo = catItem.Titulo,
+                                                  Descripcion = catItem.Descripcion,
+                                                  DateTimeItemAdded = catItem.DateTimeItemAdded,
+                                                  TipodeMedioId = catItem.TipodeMedioId,
+                                                  CategoriaId = categoriaId
+                                              }
+                                              ).ToListAsync();
+            //Esto devolvera todas las partes pequeñas de las categorias, Por ello se tiene que modificar
+            //de modo que en la parte de arriba de este codigo se pueda filtrar para que no muestre
+            //todas las partes pequeñas de las categorias 
+            return View(await _context.CategoriasItem.ToListAsync());
         }
 
-        // GET: Admin/Categorias/Details/5
+        // GET: Admin/CategoriaItem/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,30 +50,30 @@ namespace TechTreeMVCApplication.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias
+            var categoriaItem = await _context.CategoriasItem
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (categoria == null)
+            if (categoriaItem == null)
             {
                 return NotFound();
             }
 
-            return View(categoria);
+            return View(categoriaItem);
         }
 
-        // GET: Admin/Categorias/Create
+        // GET: Admin/CategoriaItem/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Categorias/Create
+        // POST: Admin/CategoriaItem/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Titulo,Descripcion,PulgarImagen")] Categoria categoria)
+        public async Task<IActionResult> Create([Bind("Id,Titulo,Descripcion,DateTimeItemAdded,CategoriaId,TipodeMedioId")] CategoriaItem categoriaItem)
         {
-            //Se valida que errores pueden salir a la hora de crear una categoria
+            //Se valida que errores pueden salir a la hora de crear una categoriaItem
             if (!ModelState.IsValid)
             {
                 // Log de errores de validación
@@ -68,14 +84,14 @@ namespace TechTreeMVCApplication.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
-                _context.Add(categoria);
+                _context.Add(categoriaItem);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(categoria);
+            return View(categoriaItem);
         }
 
-        // GET: Admin/Categorias/Edit/5
+        // GET: Admin/CategoriaItem/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,22 +99,22 @@ namespace TechTreeMVCApplication.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias.FindAsync(id);
-            if (categoria == null)
+            var categoriaItem = await _context.CategoriasItem.FindAsync(id);
+            if (categoriaItem == null)
             {
                 return NotFound();
             }
-            return View(categoria);
+            return View(categoriaItem);
         }
 
-        // POST: Admin/Categorias/Edit/5
+        // POST: Admin/CategoriaItem/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Descripcion,PulgarImagen")] Categoria categoria)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Descripcion,DateTimeItemAdded,CategoriaId,TipodeMedioId")] CategoriaItem categoriaItem)
         {
-            if (id != categoria.Id)
+            if (id != categoriaItem.Id)
             {
                 return NotFound();
             }
@@ -107,12 +123,12 @@ namespace TechTreeMVCApplication.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(categoria);
+                    _context.Update(categoriaItem);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoriaExists(categoria.Id))
+                    if (!CategoriaItemExists(categoriaItem.Id))
                     {
                         return NotFound();
                     }
@@ -123,10 +139,10 @@ namespace TechTreeMVCApplication.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(categoria);
+            return View(categoriaItem);
         }
 
-        // GET: Admin/Categorias/Delete/5
+        // GET: Admin/CategoriaItem/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,34 +150,34 @@ namespace TechTreeMVCApplication.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias
+            var categoriaItem = await _context.CategoriasItem
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (categoria == null)
+            if (categoriaItem == null)
             {
                 return NotFound();
             }
 
-            return View(categoria);
+            return View(categoriaItem);
         }
 
-        // POST: Admin/Categorias/Delete/5
+        // POST: Admin/CategoriaItem/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var categoria = await _context.Categorias.FindAsync(id);
-            if (categoria != null)
+            var categoriaItem = await _context.CategoriasItem.FindAsync(id);
+            if (categoriaItem != null)
             {
-                _context.Categorias.Remove(categoria);
+                _context.CategoriasItem.Remove(categoriaItem);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoriaExists(int id)
+        private bool CategoriaItemExists(int id)
         {
-            return _context.Categorias.Any(e => e.Id == id);
+            return _context.CategoriasItem.Any(e => e.Id == id);
         }
     }
 }

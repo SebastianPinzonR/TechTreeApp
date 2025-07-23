@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TechTreeMVCApplication.Entities
 {
@@ -11,6 +13,8 @@ namespace TechTreeMVCApplication.Entities
         public string Descripcion { get; set; } = null!;
         public DateTime DateTimeItemAdded { get; set; }
         public int CategoriaId { get; set; }
-        public int TipodeMedioId { get; set; }        
+        public int TipodeMedioId { get; set; }
+        [NotMapped]
+        public virtual ICollection<SelectListItem> TiposdeMedio { get; set; }
     }
 }
